@@ -1,4 +1,4 @@
-<img src="https://github.com/withvenny/venny-apis-messaging-php/blob/master/venny-apis-cover-Identity.png">
+<img src="https://github.com/withvenny/venny-apis-identity-php/blob/master/venny-apis-cover-Identity.png">
 
 # Identity from Venny
 
