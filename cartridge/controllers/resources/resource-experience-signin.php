@@ -66,7 +66,6 @@
             $request['user'] = $user_details['data'][0]['id'];
 
             //
-            
             $request['domain'] = 'profiles';
 
             //
