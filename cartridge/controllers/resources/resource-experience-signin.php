@@ -55,13 +55,13 @@
 
             $request['domain'] = 'users';
 
-            echo json_encode($request);
+            //echo json_encode($request);
             //exit;
 
             // get person ID's details
             $user_details = $user->selectUsers($request);
 
-            echo json_encode($user_details);
+            //echo json_encode($user_details);
             //exit;
 
             // insert a profile and get profile ID
@@ -73,7 +73,7 @@
             //
             $profile_details = $profile->selectProfiles($request);
 
-            echo json_encode($profile_details);
+            //echo json_encode($profile_details);
             //exit;
 
             //
