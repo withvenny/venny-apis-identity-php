@@ -323,7 +323,9 @@
                     person_email,
                     person_phone_primary,
                     person_phone_secondary,
-                    person_entitlements
+                    person_entitlements,
+                    app_ID,
+                    time_finished
 
                 ";
 
@@ -468,7 +470,9 @@
                             'name_last' => $row['person_name_last'],
                             'email' => $row['person_email'],
                             'phone_primary' => $row['person_phone_primary'],
-                            'entitlements' => json_decode($row['person_entitlements'])
+                            'entitlements' => json_decode($row['person_entitlements']),
+                            'app' => $row['app_ID'],
+                            'when' => $row['time_finished'],
 
                         ];
 
@@ -740,7 +744,9 @@
                     user_status,
                     user_validation,
                     user_welcome,
-                    person_id
+                    person_id,
+                    app_ID,
+                    time_finished
 
                 ";
 
@@ -882,7 +888,9 @@
                             'status' => $row['user_status'],
                             'validation' => $row['user_validation'],
                             'welcome' => json_decode($row['user_welcome']),
-                            'person' => $row['person_id']
+                            'person' => $row['person_id'],
+                            'app' => $row['app_ID'],
+                            'when' => $row['time_finished'],
 
                         ];
 
@@ -1143,7 +1151,8 @@
                 profile_headline,
                 profile_access,
                 profile_status,
-                user_id
+                user_id,
+                app_id
 
                 ";
 
@@ -1280,7 +1289,9 @@
                             'headline' => $row['profile_headline'],
                             'access' => $row['profile_access'],
                             'status' => $row['profile_status'],
-                            'user' => $row['user_id']
+                            'user' => $row['user_id'],
+                            'app' => $row['app_ID'],
+                            'when' => $row['time_finished'],
 
                         ];
 
