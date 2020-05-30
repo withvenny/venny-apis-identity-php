@@ -1455,7 +1455,7 @@
         public function insertPartner($request) {
 
             //generate ID
-            if(!isset($request['id'])){$request['id'] = $this->token->new_id('per');}
+            if(!isset($request['id'])){$request['id'] = $this->token->new_id('par');}
 
             // INSERT OBJECT - COLUMNS
             $columns = "";
@@ -1819,7 +1819,7 @@
 
             $data = $statement->fetchAll();
             
-            $data = $data[0]['person_id'];
+            $data = $data[0]['partner_id'];
 
             // return generated id
             return $data;
