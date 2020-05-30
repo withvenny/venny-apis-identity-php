@@ -1640,7 +1640,7 @@
                     if(isset($request['status'])){$refinements.="partner_status"." = "."'".$request['status']."' AND ";}		
                     if(isset($request['organization'])){$refinements.="partner_organization"." ILIKE "."'%".$request['organization']."%' AND ";}		
                     if(isset($request['headquarters'])){$refinements.="partner_headquarters"." ILIKE "."'%".$request['headquarters']."%' AND ";}		
-                    if(isset($request['locations'])){$refinements.="partner_locations"." ILIKE "."'%".$request['locations']."%' AND ";}
+                    //if(isset($request['locations'])){$refinements.="partner_locations"." ILIKE "."'%".$request['locations']."%' AND ";}
                     if(isset($request['user'])){$refinements.="user_id"." = "."'".$request['user']."' AND ";}		
 
                     //echo $conditions . 'conditions1<br/>';
