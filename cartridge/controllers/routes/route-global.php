@@ -27,6 +27,7 @@
 
                 //
                 case 'persons': require 'controllers/resources/resource-identity-persons.php'; break;
+                case 'partners': require 'controllers/resources/resource-identity-partners.php'; break;
                 case 'users': require 'controllers/resources/resource-identity-users.php'; break;
                 case 'profiles': require 'controllers/resources/resource-identity-profiles.php'; break;
     
