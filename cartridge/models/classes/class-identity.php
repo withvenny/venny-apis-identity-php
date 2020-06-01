@@ -324,7 +324,7 @@
                     person_phone_primary,
                     person_phone_secondary,
                     person_entitlements,
-                    app_ID,
+                    app_id,
                     time_finished
 
                 ";
@@ -471,7 +471,7 @@
                             'email' => $row['person_email'],
                             'phone_primary' => $row['person_phone_primary'],
                             'entitlements' => json_decode($row['person_entitlements']),
-                            'app' => $row['app_ID'],
+                            'app' => $row['app_id'],
                             'when' => $row['time_finished'],
 
                         ];
@@ -745,7 +745,7 @@
                     user_validation,
                     user_welcome,
                     person_id,
-                    app_ID,
+                    app_id,
                     time_finished
 
                 ";
@@ -889,7 +889,7 @@
                             'validation' => $row['user_validation'],
                             'welcome' => json_decode($row['user_welcome']),
                             'person' => $row['person_id'],
-                            'app' => $row['app_ID'],
+                            'app' => $row['app_id'],
                             'when' => $row['time_finished'],
 
                         ];
@@ -1290,7 +1290,7 @@
                             'access' => $row['profile_access'],
                             'status' => $row['profile_status'],
                             'user' => $row['user_id'],
-                            'app' => $row['app_ID'],
+                            'app' => $row['app_id'],
                             'when' => $row['time_finished'],
 
                         ];
