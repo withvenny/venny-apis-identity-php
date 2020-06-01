@@ -1152,7 +1152,8 @@
                 profile_access,
                 profile_status,
                 user_id,
-                app_id
+                app_id,
+                time_finished
 
                 ";
 
