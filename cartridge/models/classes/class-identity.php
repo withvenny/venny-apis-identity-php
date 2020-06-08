@@ -1310,7 +1310,7 @@
                         $data[]['person'] = $user_details['data'][0]['person']; // add person to $data
 
                         // Person information...
-                        $request['id'] = $data[0]['person']; // get user ID for selectUsers
+                        $request['id'] = $user_details['data'][0]['person']; // get user ID for selectUsers
                         $request['domain'] = 'persons'; // switch domain
                         $person_details = $this->person->selectPersons($request); // collect all user details returned from selectUsers
                         $data[]['name_first'] = $person_details['data'][0]['name_first']; // add first name to $data
