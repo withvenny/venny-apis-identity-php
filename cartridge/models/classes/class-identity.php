@@ -1300,9 +1300,9 @@
 
                     }
 
-                    echo var_dump($data);
+                    //echo var_dump($data);
 
-                    exit;
+                    //exit;
 
                     // User information...
                     $request['id'] = $data[0]['user']; // get user ID for selectUsers
