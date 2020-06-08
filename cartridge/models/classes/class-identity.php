@@ -779,9 +779,9 @@
                     $sql.= $conditions;
                     $sql.= $subset;
                     
-                    //echo json_encode($request['id']);
-                    //echo '<br/>';
-                    //echo $sql; exit;
+                    echo json_encode($request['id']);
+                    echo '<br/>';
+                    echo $sql; exit;
 
                     //
                     $statement = $this->pdo->prepare($sql);
@@ -1317,7 +1317,7 @@
                     $data['name_last'] = $person_details['data'][0]['name_last']; // add last name to $data
 
                     //
-                    exit;
+                    //exit;
 
                     $code = 200;
                     $message = "OK";
