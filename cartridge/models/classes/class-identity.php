@@ -1298,25 +1298,25 @@
 
                         ];
 
+                        //echo var_dump($data);
+
+                        //exit;
+
+                        // User information...
+                        $request['id'] = $data[0]['user']; // get user ID for selectUsers
+                        $request['domain'] = 'users'; // switch domain
+                        $user_details = $this->user->selectUsers($request); // collect all user details returned from selectUsers
+                        $data[0]['alias'] = $user_details['data'][0]['alias']; // add alias to $data
+                        $data[0]['person'] = $user_details['data'][0]['person']; // add person to $data
+
+                        // Person information...
+                        $request['id'] = $data[0]['person']; // get user ID for selectUsers
+                        $request['domain'] = 'persons'; // switch domain
+                        $person_details = $this->person->selectPersons($request); // collect all user details returned from selectUsers
+                        $data[0]['name_first'] = $person_details['data'][0]['name_first']; // add first name to $data
+                        $data[0]['name_last'] = $person_details['data'][0]['name_last']; // add last name to $data
+
                     }
-
-                    //echo var_dump($data);
-
-                    //exit;
-
-                    // User information...
-                    $request['id'] = $data[0]['user']; // get user ID for selectUsers
-                    $request['domain'] = 'users'; // switch domain
-                    $user_details = $this->user->selectUsers($request); // collect all user details returned from selectUsers
-                    $data[0]['alias'] = $user_details['data'][0]['alias']; // add alias to $data
-                    $data[0]['person'] = $user_details['data'][0]['person']; // add person to $data
-
-                    // Person information...
-                    $request['id'] = $data[0]['person']; // get user ID for selectUsers
-                    $request['domain'] = 'persons'; // switch domain
-                    $person_details = $this->person->selectPersons($request); // collect all user details returned from selectUsers
-                    $data[0]['name_first'] = $person_details['data'][0]['name_first']; // add first name to $data
-                    $data[0]['name_last'] = $person_details['data'][0]['name_last']; // add last name to $data
 
                     //
                     //exit;
