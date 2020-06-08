@@ -1048,6 +1048,8 @@
 
             //
             $this->token = new \Identity\Token($this->pdo);
+            $this->user = new \Identity\User($this->pdo);
+            $this->person = new \Identity\Person($this->pdo);
 
         }
 
@@ -1297,6 +1299,18 @@
                         ];
 
                     }
+
+                    // User information...
+                    $request['id'] = $data['user']; // get user ID for selectUsers
+                    $user_details = $this->user->selectUsers($request); // collect all user details returned from selectUsers
+                    $data['alias'] = $user_details['data'][0]['alias']; // add alias to $data
+                    $data['person'] = $user_details['data'][0]['person']; // add person to $data
+
+                    // Person information...
+                    $request['id'] = $data['person']; // get user ID for selectUsers
+                    $person_details = $this->person->selectPersons($request); // collect all user details returned from selectUsers
+                    $data['name_first'] = $person_details['data'][0]['name_first']; // add first name to $data
+                    $data['name_last'] = $person_details['data'][0]['name_last']; // add last name to $data
 
                     $code = 200;
                     $message = "OK";
