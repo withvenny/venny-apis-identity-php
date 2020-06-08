@@ -1305,7 +1305,7 @@
                     exit;
 
                     // User information...
-                    $request['id'] = $data['user']; // get user ID for selectUsers
+                    $request['id'] = $data[0]['user']; // get user ID for selectUsers
                     $user_details = $this->user->selectUsers($request); // collect all user details returned from selectUsers
                     $data['alias'] = $user_details['data'][0]['alias']; // add alias to $data
                     $data['person'] = $user_details['data'][0]['person']; // add person to $data
