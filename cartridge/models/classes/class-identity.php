@@ -1290,13 +1290,13 @@
                         $request['id'] = $row['user_id']; // get user ID for selectUsers
                         $request['domain'] = 'users'; // switch domain
                         $user_details = $this->user->selectUsers($request); // collect all user details returned from selectUsers
-                        $data[]['alias'] = $user_details['data'][0]['alias']; // add alias to $data
+                        //$data[]['alias'] = $user_details['data'][0]['alias']; // add alias to $data
 
                         $request['id'] = $user_details['data'][0]['person']; // get user ID for selectUsers
                         $request['domain'] = 'persons'; // switch domain
                         $person_details = $this->person->selectPersons($request); // collect all user details returned from selectUsers
-                        $data[]['name_first'] = $person_details['data'][0]['name_first']; // add first name to $data
-                        $data[]['name_last'] = $person_details['data'][0]['name_last']; // add last name to $data
+                        //$data[]['name_first'] = $person_details['data'][0]['name_first']; // add first name to $data
+                        //$data[]['name_last'] = $person_details['data'][0]['name_last']; // add last name to $data
 
                         //
                         $data[] = [
@@ -1311,10 +1311,9 @@
                             'user' => $row['user_id'],
                             'app' => $row['app_id'],
                             'when' => $row['time_finished'],
-                            'name_first' => $row['time_finished'],
-                            'name_last' => $row['time_finished'],
-                            'alias' => $row['time_finished'],
-                            
+                            'name_first' => $person_details['data'][0]['name_first'],
+                            'name_last' => $person_details['data'][0]['name_last'],
+                            'alias' => $user_details['data'][0]['alias'],
 
                         ];
 
