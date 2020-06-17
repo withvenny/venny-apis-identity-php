@@ -1296,9 +1296,7 @@
                             'app' => $row['app_id'],
                             'when' => $row['time_finished'],
 
-                        ];
-
-                        //echo var_dump($data);
+                                                    //echo var_dump($data);
 
                         //exit;
 
@@ -1315,6 +1313,9 @@
                         $person_details = $this->person->selectPersons($request); // collect all user details returned from selectUsers
                         $data[]['name_first'] = $person_details['data'][0]['name_first']; // add first name to $data
                         $data[]['name_last'] = $person_details['data'][0]['name_last']; // add last name to $data
+
+
+                        ];
 
                     }
 
