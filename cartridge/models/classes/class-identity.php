@@ -1306,8 +1306,8 @@
                         $request['id'] = $data[0]['user']; // get user ID for selectUsers
                         $request['domain'] = 'users'; // switch domain
                         $user_details = $this->user->selectUsers($request); // collect all user details returned from selectUsers
-                        $data[]['alias'] = $user_details['data'][0]['alias']; // add alias to $data
-                        $data[]['person'] = $user_details['data'][0]['person']; // add person to $data
+                        $data['alias'] = $user_details['data'][0]['alias']; // add alias to $data
+                        $yo = $user_details['data'][0]['person']; // add person to $data
 
                         // Person information...
                         $request['id'] = $user_details['data'][0]['person']; // get user ID for selectUsers
