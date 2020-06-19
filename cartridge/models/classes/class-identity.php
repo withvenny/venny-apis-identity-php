@@ -1288,13 +1288,13 @@
 
                         // User information...
                         $request['id'] = $row['user_id']; // get user ID for selectUsers
-                        echo "user: " . $request['id'];
+                        //echo "user: " . $request['id'];
                         $request['domain'] = 'users'; // switch domain
                         $user_details = $this->user->selectUsers($request); // collect all user details returned from selectUsers
                         //$data[]['alias'] = $user_details['data'][0]['alias']; // add alias to $data
 
                         $request['id'] = $user_details['data'][0]['person']; // get user ID for selectUsers
-                        echo "person: " . $request['id'];
+                        //echo "person: " . $request['id'];
                         $request['domain'] = 'persons'; // switch domain
                         $person_details = $this->person->selectPersons($request); // collect all user details returned from selectUsers
                         //$data[]['name_first'] = $person_details['data'][0]['name_first']; // add first name to $data
