@@ -1288,6 +1288,7 @@
 
                         // User information...
                         $request['id'] = $row['user_id']; // get user ID for selectUsers
+                        echo $request['id']; exit;
                         $request['domain'] = 'users'; // switch domain
                         $user_details = $this->user->selectUsers($request); // collect all user details returned from selectUsers
                         //$data[]['alias'] = $user_details['data'][0]['alias']; // add alias to $data
@@ -1313,7 +1314,7 @@
                             'when' => $row['time_finished'],
                             'name_first' => $person_details['data'][0]['name_first'],
                             'name_last' => $person_details['data'][0]['name_last'],
-                            'alias' => $user_details['data'][0]['alias'],
+                            'alias' => $user_details['data'][0]['alias']
 
                         ];
 
