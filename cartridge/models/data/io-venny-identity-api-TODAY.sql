@@ -3,6 +3,7 @@ CREATE TABLE fruits(
    name VARCHAR NOT NULL
 );
 
+
 INSERT INTO fruits(name) VALUES('Orange');
 INSERT INTO fruits(name) VALUES('Plum');
 INSERT INTO fruits(name) VALUES('Pomagrante');
