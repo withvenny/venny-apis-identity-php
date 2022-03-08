@@ -22,11 +22,10 @@
     if(isset($_REQUEST['name_first'])){$request['name_first'] = clean($_REQUEST['name_first']);}
     if(isset($_REQUEST['name_middle'])){$request['name_middle'] = clean($_REQUEST['name_middle']);}
     if(isset($_REQUEST['name_last'])){$request['name_last'] = clean($_REQUEST['name_last']);}
+    if(isset($_REQUEST['phone'])){$request['phone'] = clean($_REQUEST['phone']);}
     if(isset($_REQUEST['email'])){$request['email'] = clean($_REQUEST['email']);}
-    if(isset($_REQUEST['phone_primary'])){$request['phone_primary'] = clean($_REQUEST['phone_primary']);}
-    if(isset($_REQUEST['phone_secondary'])){$request['phone_secondary'] = clean($_REQUEST['phone_secondary']);}
+    if(isset($_REQUEST['address'])){$request['address'] = clean($_REQUEST['address']);}
     if(isset($_REQUEST['entitlements'])){$request['entitlements'] = clean($_REQUEST['entitlements']);}
-
     //
     switch ($_SERVER['REQUEST_METHOD']) {
 
