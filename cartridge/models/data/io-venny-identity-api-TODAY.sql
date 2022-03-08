@@ -3,6 +3,21 @@ CREATE TABLE fruits(
    name VARCHAR NOT NULL
 );
 
+CREATE EXTENSION pgcrypto;
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  email TEXT NOT NULL UNIQUE,
+  password TEXT NOT NULL
+);
+INSERT INTO users (email, password) VALUES (
+  'johndoe@mail.com',
+  crypt('johnspassword', gen_salt('bf'))
+);
+select * from users;
+SELECT id, email 
+  FROM users
+ WHERE email = 'johndoe@mail.com' 
+   AND password = crypt('johnspassword', password);
 
 INSERT INTO fruits(name) VALUES('Orange');
 INSERT INTO fruits(name) VALUES('Plum');
@@ -23,31 +38,40 @@ ALTER SEQUENCE fruits_id_seq RESTART WITH 300;
 
 drop table fruits;
 drop table persons;
+DROP TABLE IF EXISTS contacts;
 
-CREATE TABLE persons (
-	id SERIAL NOT NULL,
-	person_id varchar(30) NOT null primary KEY,
-	person_attributes json NULL,
-	person_name_first varchar(255) NOT NULL,
-	person_name_middle varchar(255) NULL,
-	person_name_last varchar(255) NULL,
-	person_email varchar(255) NOT NULL,
-	person_phone_primary varchar(255) NULL,
-	person_phone_secondary varchar(255) NULL,
-	person_entitlements json NULL,
-	app_id varchar(30) NOT NULL,
-	event_id varchar(30) NOT NULL,
-	process_id varchar(30) NOT NULL,
-	time_started timestamp NOT NULL DEFAULT now(),
-	time_updated timestamp NOT NULL DEFAULT now(),
-	time_finished timestamp NOT NULL DEFAULT now(),
-	active int4 NOT NULL DEFAULT 1,
-	CONSTRAINT persons_person_id_key UNIQUE (person_id)
-);
+CREATE TABLE IF NOT EXISTS 		person (
+"	id SERIAL NOT NULL,"		
+person_id	VARCHAR(30)	NOT null primary KEY,
+person_attributes	JSONB	NULL,
+person_name	JSONB	NULL,
+person_phone	JSONB	NULL,
+person_email	JSONB	NOT NULL,
+person_entitlements	JSONB	NOT NULL,
+person_address	JSONB	NULL,
+app	VARCHAR(30)	NOT NULL,
+process	VARCHAR(30)	NOT NULL,
+event	VARCHAR(30)	NOT NULL,
+time_started	TIMESTAMP	NOT NULL DEFAULT now(),
+time_updated	TIMESTAMP	NOT NULL DEFAULT now(),
+time_finished	TIMESTAMP	NOT NULL DEFAULT now(),
+active	INT2	NOT NULL DEFAULT 1 ,
+CONSTRAINT persons_person_id_key UNIQUE (person_id)		
+);		
+ALTER SEQUENCE persons_id_seq RESTART WITH 8301;		
+CREATE INDEX person_id ON persons USING btree (person_id);		
 
-ALTER SEQUENCE persons_id_seq RESTART WITH 8301;
+
+CREATE INDEX person_phone_primary ON public.persons USING btree (person_phone_primary);
+
 
 SELECT * FROM persons;
+drop table persons;
+drop table users;
+drop table profiles;
+drop table partners;
+explain SELECT * FROM persons;
+EXPLAIN SELECT * FROM persons;
 
 CREATE INDEX person_phone_primary ON public.persons USING btree (person_phone_primary);
 
@@ -72,9 +96,9 @@ CREATE INDEX person_phone_primary ON public.persons USING btree (person_phone_pr
 
 -- DROP TABLE public.users;
 
-CREATE TABLE public.users (
-	id int4 NOT NULL DEFAULT nextval('users_sequence'::regclass),
-	user_id varchar(30) NOT NULL,
+CREATE TABLE users (
+	id SERIAL NOT NULL,
+	user_id varchar(30) NOT null primary key,
 	user_attributes json NULL,
 	user_alias varchar(255) NULL,
 	user_authorize text NOT NULL,
@@ -95,6 +119,9 @@ CREATE TABLE public.users (
 	CONSTRAINT users_person_id_fkey FOREIGN KEY (person_id) REFERENCES persons(person_id)
 );
 
+ALTER SEQUENCE users_id_seq RESTART WITH 8301;
+
+
 -- Permissions
 
 ALTER TABLE public.users OWNER TO ocxoyqphvqbshc;
@@ -107,9 +134,9 @@ GRANT ALL ON TABLE public.users TO ocxoyqphvqbshc;
 
 -- DROP TABLE public.partners;
 
-CREATE TABLE public.partners (
-	id int4 NOT NULL DEFAULT nextval('partners_sequence'::regclass),
-	partner_id varchar(30) NOT NULL,
+CREATE TABLE partners (
+	id SERIAL NOT NULL,
+	partner_id varchar(30) NOT null primary key,
 	partner_attributes json NULL,
 	partner_type varchar(30) NOT NULL,
 	partner_status varchar(30) NOT NULL,
@@ -128,6 +155,9 @@ CREATE TABLE public.partners (
 	CONSTRAINT partners_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+ALTER SEQUENCE partners_id_seq RESTART WITH 8301;
+
+
 -- Permissions
 
 ALTER TABLE public.partners OWNER TO ocxoyqphvqbshc;
@@ -140,9 +170,9 @@ GRANT ALL ON TABLE public.partners TO ocxoyqphvqbshc;
 
 -- DROP TABLE public.profiles;
 
-CREATE TABLE public.profiles (
-	id int4 NOT NULL DEFAULT nextval('profiles_sequence'::regclass),
-	profile_id varchar(30) NOT NULL,
+CREATE TABLE profiles (
+	id SERIAL NOT NULL,
+	profile_id varchar(30) NOT null primary key,
 	profile_attributes json NULL,
 	profile_images json NULL,
 	profile_bio varchar(255) NULL,
@@ -161,6 +191,9 @@ CREATE TABLE public.profiles (
 	CONSTRAINT profiles_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+ALTER SEQUENCE profiles_id_seq RESTART WITH 8301;
+
+
 -- Permissions
 
 ALTER TABLE public.profiles OWNER TO ocxoyqphvqbshc;
@@ -168,8 +201,9 @@ GRANT ALL ON TABLE public.profiles TO ocxoyqphvqbshc;
 
 
 
-INSERT INTO public.users (user_id,user_attributes,user_alias,user_authorize,user_lastlogin,user_status,user_validation,user_welcome,person_id,app_id,event_id,process_id,time_started,time_updated,time_finished,active) VALUES
-	 ('usr_10f3324784ba9',NULL,'frozone','$2a$06$o.9xJGhWaft9HBzx1CELY./62w17fJnJRki51KDMb6bf/ejsMiKb6',NULL,NULL,NULL,NULL,'per_112b01f4ea0f5','app_thentrlco','0a265b7d57760','5ca795162f50b','2020-04-17 18:58:26.543594-05','2020-04-17 18:58:26.543594-05','2020-04-17 18:58:26.543594-05',1),
+INSERT INTO users (user_id,user_attributes,user_alias,user_authorize,user_lastlogin,user_status,user_validation,user_welcome,person_id,app_id,event_id,process_id,time_started,time_updated,time_finished,active) VALUES
+	 ('usr_10f3324784ba9',NULL,'frozone','$2a$06$o.9xJGhWaft9HBzx1CELY./62w17fJnJRki51KDMb6bf/ejsMiKb6',NULL,NULL,NULL,NULL,'per_SwedFGvcHjyYj','app_thentrlco','0a265b7d57760','5ca795162f50b','2020-04-17 18:58:26.543594-05','2020-04-17 18:58:26.543594-05','2020-04-17 18:58:26.543594-05',1);
+	 
 	 ('usr_1096ad7747460',NULL,NULL,'$2a$06$pF05jrPoNHifTp/VVtnudugqWCfssKlpw1lJs8XkoS14AgQHM9uKy',NULL,NULL,NULL,NULL,'per_387e37f694a76','app_situationless','b1345efa6e607','869f3b933a6e8','2020-06-29 18:29:46.08638-05','2020-06-29 18:29:46.08638-05','2020-06-29 18:29:46.08638-05',1),
 	 ('usr_94b64ffe1g12d','{}','sonofadolphus','$2a$06$2l0CK866oF/di1o2ehv0sOAa5ccGrDh.72i7nFvRfHZkSHDM7c1j6','2016-06-22 21:10:25-05','30 characters','255 characters','{}','8301_022620_0406','30 characters','30 characters','30 characters','2020-03-20 03:35:54.609124-05','2020-03-20 03:35:54.609124-05','2020-03-20 03:35:54.609124-05',1),
 	 ('usr_97053b7411253',NULL,'whataboutnow','$2a$06$gwFZV9tA4Aaa6toW/Oe8oe/..NYD6DoTOxv6pcNmdCQjPMRO2oVuq',NULL,NULL,NULL,NULL,'per_80fe893bb0bed','app_thentrlco','4795243683443','5048f444dd461','2020-04-20 21:24:16.579407-05','2020-04-20 21:24:16.579407-05','2020-04-20 21:24:16.579407-05',1),
@@ -179,7 +213,7 @@ INSERT INTO public.users (user_id,user_attributes,user_alias,user_authorize,user
 	 ('usr_f635f5581b85d',NULL,'cartwright','$2a$06$2l0CK866oF/di1o2ehv0sOAa5ccGrDh.72i7nFvRfHZkSHDM7c1j6',NULL,NULL,NULL,NULL,'per_a27afcf871daa','app_thentrlco','6513af38f91dd','f6ffb5aa057fc','2020-03-30 13:33:51.397072-05','2020-03-30 13:33:51.397072-05','2020-03-30 13:33:51.397072-05',1),
 	 ('usr_83a53eed0f02c',NULL,'equinox','$2a$06$l2W1/7TJFMXZ20kHKJbUceWq.4sFt/1ZU4IenksULtH39p.yOofnq',NULL,NULL,NULL,NULL,'per_e902f3c04fe61','app_thentrlco','f657892ff41bd','9a79da8a90e02','2020-03-30 13:30:09.304706-05','2020-03-30 13:30:09.304706-05','2020-03-30 13:30:09.304706-05',1),
 	 ('usr_b8a272b5f6ef3',NULL,'json','$2a$06$c1dic.1QlluTqfP1p1dlk.rQAXxoXg0bhkCTNYb7d6fM/ROX4BNR.',NULL,NULL,NULL,NULL,'per_0f0f305b1b044','app_thentrlco','12ec50f02257f','7bccaf4d39707','2020-05-06 13:53:06.092688-05','2020-05-06 13:53:06.092688-05','2020-05-06 13:53:06.092688-05',1);
-INSERT INTO public.users (user_id,user_attributes,user_alias,user_authorize,user_lastlogin,user_status,user_validation,user_welcome,person_id,app_id,event_id,process_id,time_started,time_updated,time_finished,active) VALUES
+INSERT INTO users (user_id,user_attributes,user_alias,user_authorize,user_lastlogin,user_status,user_validation,user_welcome,person_id,app_id,event_id,process_id,time_started,time_updated,time_finished,active) VALUES
 	 ('usr_9e60ea5a4c5ac',NULL,'howmanytimes','$2a$06$MEQmFPWaTJM3Zea9cjG2GejMFno2NXWV5sqfdiCEGgDT/zFmP4KDW',NULL,NULL,NULL,NULL,'per_a2a2dd35ebba9','app_thentrlco','d39a3a3f8e101','eaa13b73aa764','2020-05-06 13:45:13.991309-05','2020-05-06 13:45:13.991309-05','2020-05-06 13:45:13.991309-05',1),
 	 ('usr_1a2c1ce54c659',NULL,'dontsayhisname','$2a$06$7BDQSt.HKs1grYLtek/VIOSf9JLx1vMiCTbsikmenHtpZ8F.UpyWC',NULL,NULL,NULL,NULL,'per_1ead9b13e6a31','app_thentrlco','17a40f986bdd9','ebf0ce825bd01','2020-04-25 16:53:52.432099-05','2020-04-25 16:53:52.432099-05','2020-04-25 16:53:52.432099-05',1),
 	 ('usr_6e60add1726f9',NULL,'imbatman','$2a$06$V1.I/seRcKFOAQcfh1F1o./2w5SDnIevXXD.2k20qY1VqMtKP4Z6e',NULL,NULL,NULL,NULL,'per_587effccf13cf','app_thentrlco','2fbaeebf66b94','ca5df292475fc','2020-04-25 16:53:37.892042-05','2020-04-25 16:53:37.892042-05','2020-04-25 16:53:37.892042-05',1),
@@ -190,8 +224,15 @@ INSERT INTO public.users (user_id,user_attributes,user_alias,user_authorize,user
 	 ('usr_29fdf2da93fd0',NULL,'psiko15','$2a$06$PkTiQWVKLRE6kzeDhIbRp.bak7BGUbKvsdDzjXP7w7x01fvD6qJXO',NULL,NULL,NULL,NULL,'per_21b4d5006ec73','app_beatz','0f902f8c28bb3','0cd0392fdf784','2020-07-11 19:01:26.773276-05','2020-07-11 19:01:26.773276-05','2020-07-11 19:01:26.773276-05',1),
 	 ('usr_4aae035b3bffc',NULL,NULL,'$2a$06$/gC13D2Cjpw3oIeVc1EqKe6cpVndizSOhUDFrR6iVB67fQt0B2kEm',NULL,NULL,NULL,NULL,'per_784ad9a22e201','app_thentrlco','9dbad88b49397','6bdffba7ebbe5','2020-08-16 10:42:31.067571-05','2020-08-16 10:42:31.067571-05','2020-08-16 10:42:31.067571-05',1);
 
+	
+select * from profiles;
+select * from users;
+select * from persons;
+select * from partners;
+
 INSERT INTO public.profiles (profile_id,profile_attributes,profile_images,profile_bio,profile_headline,profile_access,profile_status,user_id,app_id,event_id,process_id,time_started,time_updated,time_finished,active) VALUES
-	 ('prf_648a3ec68644a',NULL,'{"profile":{"default":"img648.png"}}','that other al (ralphwreckedit)',NULL,'public','live','usr_dc2032f9fbb97','app_thentrlco','0984feb34a47c','d23784daeca49','2020-03-30 20:56:53.773984-05','2020-03-30 20:56:53.773984-05','2020-03-30 20:56:53.773984-05',1),
+	 ('prf_648a3ec68644a',NULL,'{"profile":{"default":"img648.png"}}','that other al (ralphwreckedit)',NULL,'public','live','usr_10f3324784ba9','app_thentrlco','0984feb34a47c','d23784daeca49','2020-03-30 20:56:53.773984-05','2020-03-30 20:56:53.773984-05','2020-03-30 20:56:53.773984-05',1);
+	
 	 ('prf_8478da0a3b39b',NULL,'{"profile":{"default":"img847.png"}}',NULL,NULL,'public','live','usr_c0cd1f20556cc','app_thentrlco','093e9c49db5a8','7567bfbf926e5','2020-06-26 19:13:24.892271-05','2020-06-26 19:13:24.892271-05','2020-06-26 19:13:24.892271-05',1),
 	 ('prf_3418101421421',NULL,'{"profile":{"default":"img341.png"}}',NULL,NULL,'public','live','usr_1096ad7747460','app_situationless','480f8daaf763a','df096226b7b56','2020-06-29 18:29:46.110185-05','2020-06-29 18:29:46.110185-05','2020-06-29 18:29:46.110185-05',1),
 	 ('prf_85344c320a82d',NULL,'{"profile":{"default":"img853.png"}}',NULL,NULL,'public','live','usr_29fdf2da93fd0','app_beatz','90630ebe7f5d0','63d8d3298b637','2020-07-11 19:01:26.792826-05','2020-07-11 19:01:26.792826-05','2020-07-11 19:01:26.792826-05',1),
@@ -1363,7 +1404,8 @@ INSERT INTO public.persons (person_id,person_attributes,person_name_first,person
      
 
      INSERT INTO public.partners (partner_id,partner_attributes,partner_type,partner_status,partner_organization,partner_headquarters,partner_locations,user_id,app_id,event_id,process_id,time_started,time_updated,time_finished,active) VALUES
-	 ('par_ef40140724f70',NULL,'inc','active','Overlap Capital','1343 Fernwood Ave. Dallas, Texas 75216','{"Harlem": {"phone": "2122233345", "address": "78w 132nd ST. New York, New York 11011"}, "Trinity Loft": {"phone": "9722233345", "address": "1403 Slocum ST. Dallas, TX 75207"}}','usr_94b64ffe1g12d','app_overlap','e78ef908e7562','f43b7bad13495','2020-05-29 19:25:18.62167-05','2020-05-29 19:25:18.62167-05','2020-05-29 19:25:18.62167-05',1),
+	 ('par_ef40140724f70',NULL,'inc','active','Overlap Capital','1343 Fernwood Ave. Dallas, Texas 75216','{"Harlem": {"phone": "2122233345", "address": "78w 132nd ST. New York, New York 11011"}, "Trinity Loft": {"phone": "9722233345", "address": "1403 Slocum ST. Dallas, TX 75207"}}','usr_10f3324784ba9','app_overlap','e78ef908e7562','f43b7bad13495','2020-05-29 19:25:18.62167-05','2020-05-29 19:25:18.62167-05','2020-05-29 19:25:18.62167-05',1);
+	
 	 ('par_5ec4a5b5f1091',NULL,'inc','active','Venny Labs','1343 Fernwood Ave. Dallas, Texas 75216','{}','usr_94b64ffe1g12d','app_overlap','7fb6af9eec196','5eacbc6dccc01','2020-05-29 19:36:40.273417-05','2020-05-29 19:36:40.273417-05','2020-05-29 19:36:40.273417-05',1),
 	 ('par_bfde9be5b9cac',NULL,'inc','active','The NTRL Co.','1343 Fernwood Ave. Dallas, Texas 75216','{}','usr_94b64ffe1g12d','app_overlap','da48852391fd6','46d30e69805fc','2020-05-29 19:36:49.595061-05','2020-05-29 19:36:49.595061-05','2020-05-29 19:36:49.595061-05',1),
 	 ('par_23cfa9ee9ffc9',NULL,'inc','active','Notearise','1343 Fernwood Ave. Dallas, Texas 75216','{}','usr_94b64ffe1g12d','app_overlap','e54e86cf8d96f','1a69458243f77','2020-05-29 19:39:03.797597-05','2020-05-29 19:39:03.797597-05','2020-05-29 19:39:03.797597-05',1);

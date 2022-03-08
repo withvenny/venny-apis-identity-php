@@ -232,10 +232,11 @@
             if(isset($request['name_first'])){$columns.="person_name_first,";}
             if(isset($request['name_middle'])){$columns.="person_name_middle,";}
             if(isset($request['name_last'])){$columns.="person_name_last,";}
+            if(isset($request['phone'])){$columns.="person_phone,";}
             if(isset($request['email'])){$columns.="person_email,";}
-            if(isset($request['phone_primary'])){$columns.="person_phone_primary,";}
-            if(isset($request['phone_secondary'])){$columns.="person_phone_secondary,";}
+            if(isset($request['address'])){$columns.="person_address,";}
             if(isset($request['entitlements'])){$columns.="person_entitlements,";}
+
             $columns.= "app_id,";
             $columns.= "event_id,";
             $columns.= "process_id";
@@ -247,10 +248,11 @@
             if(isset($request['name_first'])){$values.=":person_name_first,";}
             if(isset($request['name_middle'])){$values.=":person_name_middle,";}
             if(isset($request['name_last'])){$values.=":person_name_last,";}
+            if(isset($request['phone'])){$values.=":person_phone,";}
             if(isset($request['email'])){$values.=":person_email,";}
-            if(isset($request['phone_primary'])){$values.=":person_phone_primary,";}
-            if(isset($request['phone_secondary'])){$values.=":person_phone_secondary,";}
+            if(isset($request['address'])){$values.=":person_address,";}
             if(isset($request['entitlements'])){$values.=":person_entitlements,";}
+
             $values.= ":app_id,";
             $values.= ":event_id,";
             $values.= ":process_id";
@@ -272,10 +274,11 @@
             if(isset($request['name_first'])){$statement->bindValue('person_name_first',$request['name_first']);}
             if(isset($request['name_middle'])){$statement->bindValue('person_name_middle',$request['name_middle']);}
             if(isset($request['name_last'])){$statement->bindValue('person_name_last',$request['name_last']);}
+            if(isset($request['phone'])){$statement->bindValue('person_phone',$request['phone']);}
             if(isset($request['email'])){$statement->bindValue('person_email',$request['email']);}
-            if(isset($request['phone_primary'])){$statement->bindValue('person_phone_primary',$request['phone_primary']);}
-            if(isset($request['phone_secondary'])){$statement->bindValue('person_phone_secondary',$request['phone_secondary']);}
+            if(isset($request['address'])){$statement->bindValue('person_address',$request['address']);}
             if(isset($request['entitlements'])){$statement->bindValue('person_entitlements',$request['entitlements']);}
+
             $statement->bindValue(':app_id', $request['app']);
             $statement->bindValue(':event_id', $this->token->event_id());
             $statement->bindValue(':process_id', $this->token->process_id());
