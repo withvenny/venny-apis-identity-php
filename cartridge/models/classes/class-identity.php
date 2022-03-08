@@ -323,9 +323,9 @@
                     person_name_first,
                     person_name_middle,
                     person_name_last,
+                    person_phone,
                     person_email,
-                    person_phone_primary,
-                    person_phone_secondary,
+                    person_address,
                     person_entitlements,
                     app_id,
                     time_finished
@@ -409,9 +409,9 @@
                     if(isset($request['name_first'])){$refinements.="person_name_first"." ILIKE "."'%".$request['name_first']."%' AND ";}
                     if(isset($request['name_middle'])){$refinements.="person_name_middle"." ILIKE "."'%".$request['name_middle']."%' AND ";}
                     if(isset($request['name_last'])){$refinements.="person_name_last"." ILIKE "."'%".$request['name_last']."%' AND ";}
+                    if(isset($request['phone'])){$refinements.="person_phone"." ILIKE "."'%".$request['phone']."%' AND ";}
                     if(isset($request['email'])){$refinements.="person_email"." = "."'".$request['email']."' AND ";}
-                    if(isset($request['phone_primary'])){$refinements.="person_phone_primary"." ILIKE "."'%".$request['phone_primary']."%' AND ";}
-                    if(isset($request['phone_secondary'])){$refinements.="person_phone_secondary"." ILIKE "."'%".$request['phone_secondary']."%' AND ";}
+                    if(isset($request['address'])){$refinements.="person_address"." ILIKE "."'%".$request['address']."%' AND ";}
                     if(isset($request['entitlements'])){$refinements.="person_entitlements"." ILIKE "."'%".$request['entitlements']."%' AND ";}
                     
                     //echo $conditions . 'conditions1<br/>';
@@ -467,13 +467,14 @@
                         $data[] = [
 
                             'id' => $row['person_id'],
-                            'attributes' => json_decode($row['person_attributes']),
+                            'attributes' => $row['person_attributes'],
                             'name_first' => $row['person_name_first'],
                             'name_middle' => $row['person_name_middle'],
                             'name_last' => $row['person_name_last'],
+                            'phone' => $row['person_phone'],
                             'email' => $row['person_email'],
-                            'phone_primary' => $row['person_phone_primary'],
-                            'entitlements' => json_decode($row['person_entitlements']),
+                            'address' => $row['person_address'],
+                            'entitlements' => $row['person_entitlements'],
                             'app' => $row['app_id'],
                             'when' => $row['time_finished'],
 
