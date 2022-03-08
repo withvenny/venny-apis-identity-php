@@ -541,11 +541,11 @@
             if(isset($request['name_first'])){$set.= " person_name_first = :person_name_first ";}
             if(isset($request['name_middle'])){$set.= " person_name_middle = :person_name_middle ";}
             if(isset($request['name_last'])){$set.= " person_name_last = :person_name_last ";}
+            if(isset($request['phone'])){$set.= " person_phone = :person_phone ";}
             if(isset($request['email'])){$set.= " person_email = :person_email ";}
-            if(isset($request['phone_primary'])){$set.= " person_phone_primary = :person_phone_primary ";}
-            if(isset($request['phone_secondary'])){$set.= " person_phone_secondary = :person_phone_secondary ";}
+            if(isset($request['address'])){$set.= " person_address = :person_address ";}
             if(isset($request['entitlements'])){$set.= " person_entitlements = :person_entitlements ";}
-
+            
             //
             $set = str_replace('  ',',',$set);
 
@@ -581,10 +581,11 @@
             if(isset($request['name_first'])){$statement->bindValue(':person_name_first', $request['name_first']);}
             if(isset($request['name_middle'])){$statement->bindValue(':person_name_middle', $request['name_middle']);}
             if(isset($request['name_last'])){$statement->bindValue(':person_name_last', $request['name_last']);}
+            if(isset($request['phone'])){$statement->bindValue(':person_phone', $request['phone']);}
             if(isset($request['email'])){$statement->bindValue(':person_email', $request['email']);}
-            if(isset($request['phone_primary'])){$statement->bindValue(':person_phone_primary', $request['phone_primary']);}
-            if(isset($request['phone_secondary'])){$statement->bindValue(':person_phone_secondary', $request['phone_secondary']);}
+            if(isset($request['address'])){$statement->bindValue(':person_address', $request['address']);}
             if(isset($request['entitlements'])){$statement->bindValue(':person_entitlements', $request['entitlements']);}
+            
             $statement->bindValue(':id', $id);
 
             // update data in the database
