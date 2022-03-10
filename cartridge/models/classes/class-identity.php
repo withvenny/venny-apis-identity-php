@@ -650,10 +650,13 @@
 
 
             $columns = "";
+
+            // rearrnging
+            if(isset($request['authorize'])){$columns.="user_authorize,";}
+
             if(isset($request['id'])){$columns.="user_id,";}
             if(isset($request['attributes'])){$columns.="user_attributes,";}
             if(isset($request['alias'])){$columns.="user_alias,";}
-            if(isset($request['authorize'])){$columns.="user_authorize,";}
             if(isset($request['login_last'])){$columns.="user_login_last,";}
             if(isset($request['status'])){$columns.="user_status,";}
             if(isset($request['validation'])){$columns.="user_validation,";}
@@ -665,12 +668,12 @@
             $columns.= "process_id";
 
             $values = "";
-            //if(isset($request['authorize'])){$values.=":user_authorize,";}		
+            if(isset($request['authorize'])){$values.=":user_authorize,";}		
 
             if(isset($request['id'])){$values.=":user_id,";}
             if(isset($request['attributes'])){$values.=":user_attributes,";}
             if(isset($request['alias'])){$values.=":user_alias,";}
-            if(isset($request['authorize'])){$values.=":user_authorize,";}
+            //if(isset($request['authorize'])){$values.=":user_authorize,";}
             if(isset($request['login_last'])){$values.=":user_login_last,";}
             if(isset($request['status'])){$values.=":user_status,";}
             if(isset($request['validation'])){$values.=":user_validation,";}
