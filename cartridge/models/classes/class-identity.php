@@ -659,6 +659,7 @@
             if(isset($request['validation'])){$columns.="user_validation,";}
             if(isset($request['welcome'])){$columns.="user_welcome,";}
             if(isset($request['person'])){$columns.="person_id,";}
+
             $columns.= "app_id,";
             $columns.= "event_id,";
             $columns.= "process_id";
@@ -704,12 +705,15 @@
             if(isset($request['status'])){$statement->bindValue('user_status',$request['status']);}
             if(isset($request['validation'])){$statement->bindValue('user_validation',$request['validation']);}
             if(isset($request['welcome'])){$statement->bindValue('user_welcome',$request['welcome']);}      	
-            if(isset($request['person'])){$statement->bindValue('person_id',$request['person']);}      	
+            if(isset($request['person'])){$statement->bindValue('person_id',$request['person']);}
+
             $statement->bindValue(':app_id', $request['app']);
             $statement->bindValue(':event_id', $this->token->event_id());
             $statement->bindValue(':process_id', $this->token->process_id());
             
             // execute the insert statement
+            echo print($statement);
+            exit;
             $statement->execute();
 
             $data = $statement->fetchAll();
