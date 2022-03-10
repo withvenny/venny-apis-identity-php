@@ -26,6 +26,7 @@
     if(isset($_REQUEST['status'])){$request['status'] = clean($_REQUEST['status']);}
     if(isset($_REQUEST['validation'])){$request['validation'] = clean($_REQUEST['validation']);}
     if(isset($_REQUEST['welcome'])){$request['welcome'] = clean($_REQUEST['welcome']);}
+    if(isset($_REQUEST['person'])){$request['person'] = clean($_REQUEST['person']);}
 
     //
     switch ($_SERVER['REQUEST_METHOD']) {
