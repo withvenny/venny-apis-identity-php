@@ -668,7 +668,7 @@
             $columns.= "process_id";
 
             $values = "";
-            if(isset($request['authorize'])){$values.=":user_authorize,";}		
+            //if(isset($request['authorize'])){$values.=":user_authorize,";}		
 
             if(isset($request['id'])){$values.=":user_id,";}
             if(isset($request['attributes'])){$values.=":user_attributes,";}
