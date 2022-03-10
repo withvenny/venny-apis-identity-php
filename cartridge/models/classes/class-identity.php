@@ -467,14 +467,14 @@
                         $data[] = [
 
                             'id' => $row['person_id'],
-                            'attributes' => $row['person_attributes'],
+                            'attributes' => json_decode($row['person_attributes']),
                             'name_first' => $row['person_name_first'],
                             'name_middle' => $row['person_name_middle'],
                             'name_last' => $row['person_name_last'],
                             'phone' => $row['person_phone'],
                             'email' => $row['person_email'],
                             'address' => $row['person_address'],
-                            'entitlements' => $row['person_entitlements'],
+                            'entitlements' => json_decode($row['person_entitlements']),
                             'app' => $row['app_id'],
                             'when' => $row['time_finished'],
 
@@ -585,7 +585,7 @@
             if(isset($request['email'])){$statement->bindValue(':person_email', $request['email']);}
             if(isset($request['address'])){$statement->bindValue(':person_address', $request['address']);}
             if(isset($request['entitlements'])){$statement->bindValue(':person_entitlements', $request['entitlements']);}
-            
+
             $statement->bindValue(':id', $id);
 
             // update data in the database
@@ -650,15 +650,14 @@
 
 
             $columns = "";
+            if(isset($request['id'])){$columns.="user_id,";}
+            if(isset($request['attributes'])){$columns.="user_attributes,";}
+            if(isset($request['alias'])){$columns.="user_alias,";}
             if(isset($request['authorize'])){$columns.="user_authorize,";}
-            if(isset($request['id'])){$columns.="user_id,";}		
-            if(isset($request['attributes'])){$columns.="user_attributes,";}		
-            if(isset($request['alias'])){$columns.="user_alias,";}		
-            if(isset($request['lastlogin'])){$columns.="user_lastlogin,";}		
-            if(isset($request['status'])){$columns.="user_status,";}		
-            if(isset($request['validation'])){$columns.="user_validation,";}		
-            if(isset($request['welcome'])){$columns.="user_welcome,";}		
-            if(isset($request['person'])){$columns.="person_id,";}		
+            if(isset($request['login_last'])){$columns.="user_login_last,";}
+            if(isset($request['status'])){$columns.="user_status,";}
+            if(isset($request['validation'])){$columns.="user_validation,";}
+            if(isset($request['welcome'])){$columns.="user_welcome,";}
             $columns.= "app_id,";
             $columns.= "event_id,";
             $columns.= "process_id";
@@ -666,14 +665,15 @@
             $values = "";
             //if(isset($request['authorize'])){$values.=":user_authorize,";}		
 
-            if(isset($request['id'])){$values.=":user_id,";}		
-            if(isset($request['attributes'])){$values.=":user_attributes,";}		
-            if(isset($request['alias'])){$values.=":user_alias,";}		
-            if(isset($request['lastlogin'])){$values.=":user_lastlogin,";}		
-            if(isset($request['status'])){$values.=":user_status,";}		
-            if(isset($request['validation'])){$values.=":user_validation,";}		
-            if(isset($request['welcome'])){$values.=":user_welcome,";}		
-            if(isset($request['person'])){$values.=":person_id,";}		
+            if(isset($request['id'])){$values.=":user_id,";}
+            if(isset($request['attributes'])){$values.=":user_attributes,";}
+            if(isset($request['alias'])){$values.=":user_alias,";}
+            if(isset($request['authorize'])){$values.=":user_authorize,";}
+            if(isset($request['login_last'])){$values.=":user_login_last,";}
+            if(isset($request['status'])){$values.=":user_status,";}
+            if(isset($request['validation'])){$values.=":user_validation,";}
+            if(isset($request['welcome'])){$values.=":user_welcome,";}
+
             $values.= ":app_id,";
             $values.= ":event_id,";
             $values.= ":process_id";
@@ -694,15 +694,14 @@
             $statement = $this->pdo->prepare($sql);
             
             // pass values to the statement
-            if(isset($request['id'])){$statement->bindValue('user_id',$request['id']);}		
-            if(isset($request['attributes'])){$statement->bindValue('user_attributes',$request['attributes']);}		
-            if(isset($request['alias'])){$statement->bindValue('user_alias',$request['alias']);}		
-            //if(isset($request['authorize'])){$statement->bindValue('user_authorize',$request['authorize']);}		
-            if(isset($request['lastlogin'])){$statement->bindValue('user_lastlogin',$request['lastlogin']);}		
-            if(isset($request['status'])){$statement->bindValue('user_status',$request['status']);}		
-            if(isset($request['validation'])){$statement->bindValue('user_validation',$request['validation']);}		
-            if(isset($request['welcome'])){$statement->bindValue('user_welcome',$request['welcome']);}		
-            if(isset($request['person'])){$statement->bindValue('person_id',$request['person']);}	
+            if(isset($request['id'])){$statement->bindValue('user_id',$request['id']);}
+            if(isset($request['attributes'])){$statement->bindValue('user_attributes',$request['attributes']);}
+            if(isset($request['alias'])){$statement->bindValue('user_alias',$request['alias']);}
+            //if(isset($request['authorize'])){$statement->bindValue('user_authorize',$request['authorize']);}
+            if(isset($request['login_last'])){$statement->bindValue('user_login_last',$request['login_last']);}
+            if(isset($request['status'])){$statement->bindValue('user_status',$request['status']);}
+            if(isset($request['validation'])){$statement->bindValue('user_validation',$request['validation']);}
+            if(isset($request['welcome'])){$statement->bindValue('user_welcome',$request['welcome']);}      	
             $statement->bindValue(':app_id', $request['app']);
             $statement->bindValue(':event_id', $this->token->event_id());
             $statement->bindValue(':process_id', $this->token->process_id());
@@ -745,11 +744,11 @@
                     user_id,
                     user_attributes,
                     user_alias,
-                    user_lastlogin,
+                    user_authorize,
+                    user_login_last,
                     user_status,
                     user_validation,
                     user_welcome,
-                    person_id,
                     app_id,
                     time_finished
 
@@ -828,14 +827,15 @@
 
                     $conditions = "";
                     $refinements = "";
-                    if(isset($request['id'])){$refinements.="user_id"." ILIKE "."'%".$request['id']."%' AND ";}		
-                    //if(isset($request['attributes'])){$refinements.="user_attributes"." ILIKE "."'%".$request['attributes']."%' AND ";}		
-                    if(isset($request['alias'])){$refinements.="user_alias"." ILIKE "."'%".$request['alias']."%' AND ";}		
-                    //if(isset($request['authorize'])){$refinements.="user_authorize"." ILIKE "."'%".$request['authorize']."%' AND ";}		
-                    if(isset($request['lastlogin'])){$refinements.="user_lastlogin"." ILIKE "."'%".$request['lastlogin']."%' AND ";}		
-                    if(isset($request['status'])){$refinements.="user_status"." ILIKE "."'%".$request['status']."%' AND ";}		
-                    //if(isset($request['validation'])){$refinements.="user_validation"." ILIKE "."'%".$request['validation']."%' AND ";}		
-                    //if(isset($request['welcome'])){$refinements.="user_welcome"." ILIKE "."'%".$request['welcome']."%' AND ";}                    
+
+                    if(isset($request['attributes'])){$refinements.="user_attributes"." ILIKE "."'%".$request['attributes']."%' AND ";}
+                    if(isset($request['alias'])){$refinements.="user_alias"." ILIKE "."'%".$request['alias']."%' AND ";}
+                    if(isset($request['authorize'])){$refinements.="user_authorize"." = "."'".$request['authorize']."' AND ";}
+                    if(isset($request['login_last'])){$refinements.="user_login_last"." ILIKE "."'%".$request['login_last']."%' AND ";}
+                    if(isset($request['status'])){$refinements.="user_status"." ILIKE "."'%".$request['status']."%' AND ";}
+                    if(isset($request['validation'])){$refinements.="user_validation"." ILIKE "."'%".$request['validation']."%' AND ";}
+                    if(isset($request['welcome'])){$refinements.="user_welcome"." ILIKE "."'%".$request['welcome']."%' AND ";}
+
                     //echo $conditions . 'conditions1<br/>';
                     //echo $refinements . 'refinements1<br/>';
                     
@@ -888,12 +888,11 @@
                             'id' => $row['user_id'],
                             'attributes' => json_decode($row['user_attributes']),
                             'alias' => $row['user_alias'],
-                            //'authorize' => $row['user_authorize'], // do not display user_authorize dummy
-                            'lastlogin' => $row['user_lastlogin'],
+                            //'authorize' => $row['user_authorize'],
+                            'login_last' => $row['user_login_last'],
                             'status' => $row['user_status'],
                             'validation' => $row['user_validation'],
                             'welcome' => json_decode($row['user_welcome']),
-                            'person' => $row['person_id'],
                             'app' => $row['app_id'],
                             'when' => $row['time_finished'],
 
@@ -954,14 +953,16 @@
 
             //
             $set = "";
-            if(isset($request['id'])){$set.= " user_id = :user_id ";}		
-            if(isset($request['attributes'])){$set.= " user_attributes = :user_attributes ";}		
-            if(isset($request['alias'])){$set.= " user_alias = :user_alias ";}		
-            if(isset($request['authorize'])){$set.= " user_authorize = :user_authorize ";}		
-            if(isset($request['lastlogin'])){$set.= " user_lastlogin = :user_lastlogin ";}		
-            if(isset($request['status'])){$set.= " user_status = :user_status ";}		
-            if(isset($request['validation'])){$set.= " user_validation = :user_validation ";}		
+
+            if(isset($request['id'])){$set.= " user_id = :user_id ";}
+            if(isset($request['attributes'])){$set.= " user_attributes = :user_attributes ";}
+            if(isset($request['alias'])){$set.= " user_alias = :user_alias ";}
+            if(isset($request['authorize'])){$set.= " user_authorize = :user_authorize ";}
+            if(isset($request['login_last'])){$set.= " user_login_last = :user_login_last ";}
+            if(isset($request['status'])){$set.= " user_status = :user_status ";}
+            if(isset($request['validation'])){$set.= " user_validation = :user_validation ";}
             if(isset($request['welcome'])){$set.= " user_welcome = :user_welcome ";}
+
             //
             $set = str_replace('  ',',',$set);
 
@@ -996,10 +997,11 @@
             if(isset($request['attributes'])){$statement->bindValue(':user_attributes', $request['attributes']);}
             if(isset($request['alias'])){$statement->bindValue(':user_alias', $request['alias']);}
             if(isset($request['authorize'])){$statement->bindValue(':user_authorize', $request['authorize']);}
-            if(isset($request['lastlogin'])){$statement->bindValue(':user_lastlogin', $request['lastlogin']);}
+            if(isset($request['login_last'])){$statement->bindValue(':user_login_last', $request['login_last']);}
             if(isset($request['status'])){$statement->bindValue(':user_status', $request['status']);}
             if(isset($request['validation'])){$statement->bindValue(':user_validation', $request['validation']);}
             if(isset($request['welcome'])){$statement->bindValue(':user_welcome', $request['welcome']);}
+
             $statement->bindValue(':id', $id);
 
             // update data in the database
