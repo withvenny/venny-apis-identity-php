@@ -715,8 +715,7 @@
             $statement->bindValue(':process_id', $this->token->process_id());
             
             // execute the insert statement
-            echo json_encode($statement);
-            exit;
+            //echo json_encode($statement); exit;
             $statement->execute();
 
             $data = $statement->fetchAll();
