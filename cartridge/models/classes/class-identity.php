@@ -700,7 +700,7 @@
             $statement = $this->pdo->prepare($sql);
             
             // pass values to the statement
-            if(isset($request['authorize'])){$statement->bindValue('user_authorize',$request['authorize']);}
+            //if(isset($request['authorize'])){$statement->bindValue('user_authorize',$request['authorize']);}
 
             if(isset($request['id'])){$statement->bindValue('user_id',$request['id']);}
             if(isset($request['attributes'])){$statement->bindValue('user_attributes',$request['attributes']);}
