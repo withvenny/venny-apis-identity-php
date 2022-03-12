@@ -1257,14 +1257,14 @@
                     $conditions = "";
                     $refinements = "";
                     
-                    if(isset($request['id'])){$refinements.="profile_id"." ILIKE "."'%".$request['id']."%' AND ";}
+                    if(isset($request['id'])){$refinements.="profile_id"." = "."'".$request['id']."' AND ";}
                     if(isset($request['attributes'])){$refinements.="profile_attributes"." ILIKE "."'%".$request['attributes']."%' AND ";}
                     if(isset($request['images'])){$refinements.="profile_images"." ILIKE "."'%".$request['images']."%' AND ";}
                     if(isset($request['bio'])){$refinements.="profile_bio"." ILIKE "."'%".$request['bio']."%' AND ";}
                     if(isset($request['headline'])){$refinements.="profile_headline"." ILIKE "."'%".$request['headline']."%' AND ";}
-                    if(isset($request['access'])){$refinements.="profile_access"." ILIKE "."'%".$request['access']."%' AND ";}
-                    if(isset($request['status'])){$refinements.="profile_status"." ILIKE "."'%".$request['status']."%' AND ";}
-                    if(isset($request['user'])){$refinements.="user_id"." ILIKE "."'%".$request['user']."%' AND ";}
+                    if(isset($request['access'])){$refinements.="profile_access"." = "."'".$request['access']."' AND ";}
+                    if(isset($request['status'])){$refinements.="profile_status"." = "."'".$request['status']."' AND ";}
+                    if(isset($request['user'])){$refinements.="user_id"." = "."'".$request['user']."' AND ";}
 
                     //echo $conditions . 'conditions1<br/>';
                     //echo $refinements . 'refinements1<br/>';
