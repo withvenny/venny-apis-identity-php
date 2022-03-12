@@ -661,6 +661,7 @@
             if(isset($request['status'])){$columns.="user_status,";}
             if(isset($request['validation'])){$columns.="user_validation,";}
             if(isset($request['welcome'])){$columns.="user_welcome,";}
+            
             if(isset($request['person'])){$columns.="person_id,";}
 
             $columns.= "app_id,";
@@ -964,15 +965,15 @@
             //
             $set = "";
 
-            if(isset($request['id'])){$set.= " user_id = :user_id ";}
-            if(isset($request['attributes'])){$set.= " user_attributes = :user_attributes ";}
-            if(isset($request['alias'])){$set.= " user_alias = :user_alias ";}
-            if(isset($request['authorize'])){$set.= " user_authorize = :user_authorize ";}
-            if(isset($request['login_last'])){$set.= " user_login_last = :user_login_last ";}
-            if(isset($request['status'])){$set.= " user_status = :user_status ";}
-            if(isset($request['validation'])){$set.= " user_validation = :user_validation ";}
+            if(isset($request['id'])){$set.= " user_id = :user_id ";}		
+            if(isset($request['attributes'])){$set.= " user_attributes = :user_attributes ";}		
+            if(isset($request['alias'])){$set.= " user_alias = :user_alias ";}		
+            if(isset($request['authorize'])){$set.= " user_authorize = :user_authorize ";}		
+            if(isset($request['login_last'])){$set.= " user_login_last = :user_login_last ";}		
+            if(isset($request['status'])){$set.= " user_status = :user_status ";}		
+            if(isset($request['validation'])){$set.= " user_validation = :user_validation ";}		
             if(isset($request['welcome'])){$set.= " user_welcome = :user_welcome ";}
-
+	
             //
             $set = str_replace('  ',',',$set);
 
@@ -1003,13 +1004,14 @@
             $statement = $this->pdo->prepare($sql);
     
             // bind values to the statement
-            if(isset($request['id'])){$statement->bindValue(':user_id', $request['id']);}
-            if(isset($request['attributes'])){$statement->bindValue(':user_attributes', $request['attributes']);}
-            if(isset($request['alias'])){$statement->bindValue(':user_alias', $request['alias']);}
-            if(isset($request['authorize'])){$statement->bindValue(':user_authorize', $request['authorize']);}
-            if(isset($request['login_last'])){$statement->bindValue(':user_login_last', $request['login_last']);}
-            if(isset($request['status'])){$statement->bindValue(':user_status', $request['status']);}
-            if(isset($request['validation'])){$statement->bindValue(':user_validation', $request['validation']);}
+
+            if(isset($request['id'])){$statement->bindValue(':user_id', $request['id']);}		
+            if(isset($request['attributes'])){$statement->bindValue(':user_attributes', $request['attributes']);}		
+            if(isset($request['alias'])){$statement->bindValue(':user_alias', $request['alias']);}		
+            if(isset($request['authorize'])){$statement->bindValue(':user_authorize', $request['authorize']);}		
+            if(isset($request['login_last'])){$statement->bindValue(':user_login_last', $request['login_last']);}		
+            if(isset($request['status'])){$statement->bindValue(':user_status', $request['status']);}		
+            if(isset($request['validation'])){$statement->bindValue(':user_validation', $request['validation']);}		
             if(isset($request['welcome'])){$statement->bindValue(':user_welcome', $request['welcome']);}
 
             $statement->bindValue(':id', $id);
@@ -1084,7 +1086,9 @@
             if(isset($request['headline'])){$columns.="profile_headline,";}
             if(isset($request['access'])){$columns.="profile_access,";}
             if(isset($request['status'])){$columns.="profile_status,";}
+
             if(isset($request['user'])){$columns.="user_id,";}
+
             $columns.= "app_id,";
             $columns.= "event_id,";
             $columns.= "process_id";
@@ -1097,7 +1101,9 @@
             if(isset($request['headline'])){$values.=":profile_headline,";}
             if(isset($request['access'])){$values.=":profile_access,";}
             if(isset($request['status'])){$values.=":profile_status,";}
+
             if(isset($request['user'])){$values.=":user_id,";}
+
             $values.= ":app_id,";
             $values.= ":event_id,";
             $values.= ":process_id";
@@ -1123,7 +1129,9 @@
             if(isset($request['headline'])){$statement->bindValue('profile_headline',$request['headline']);}
             if(isset($request['access'])){$statement->bindValue('profile_access',$request['access']);}
             if(isset($request['status'])){$statement->bindValue('profile_status',$request['status']);}
+
             if(isset($request['user'])){$statement->bindValue('user_id',$request['user']);}
+
             $statement->bindValue(':app_id', $request['app']);
             $statement->bindValue(':event_id', $this->token->event_id());
             $statement->bindValue(':process_id', $this->token->process_id());
@@ -1248,6 +1256,7 @@
 
                     $conditions = "";
                     $refinements = "";
+                    
                     if(isset($request['id'])){$refinements.="profile_id"." ILIKE "."'%".$request['id']."%' AND ";}
                     if(isset($request['attributes'])){$refinements.="profile_attributes"." ILIKE "."'%".$request['attributes']."%' AND ";}
                     if(isset($request['images'])){$refinements.="profile_images"." ILIKE "."'%".$request['images']."%' AND ";}
@@ -1255,6 +1264,8 @@
                     if(isset($request['headline'])){$refinements.="profile_headline"." ILIKE "."'%".$request['headline']."%' AND ";}
                     if(isset($request['access'])){$refinements.="profile_access"." ILIKE "."'%".$request['access']."%' AND ";}
                     if(isset($request['status'])){$refinements.="profile_status"." ILIKE "."'%".$request['status']."%' AND ";}
+                    if(isset($request['user'])){$refinements.="user_id"." ILIKE "."'%".$request['user']."%' AND ";}
+
                     //echo $conditions . 'conditions1<br/>';
                     //echo $refinements . 'refinements1<br/>';
                     
@@ -1394,6 +1405,7 @@
 
             //
             $set = "";
+
             if(isset($request['id'])){$set.= " profile_id = :profile_id ";}
             if(isset($request['attributes'])){$set.= " profile_attributes = :profile_attributes ";}
             if(isset($request['images'])){$set.= " profile_images = :profile_images ";}
