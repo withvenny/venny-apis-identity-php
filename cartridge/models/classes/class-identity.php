@@ -904,6 +904,7 @@
                             'status' => $row['user_status'],
                             'validation' => $row['user_validation'],
                             'welcome' => json_decode($row['user_welcome']),
+                            'person' => $row['person_id'],
                             'app' => $row['app_id'],
                             'when' => $row['time_finished'],
 
@@ -1320,9 +1321,9 @@
                         $request['domain'] = 'users'; // switch domain
                         $user_details = $this->user->selectUsers($request); // collect all user details returned from selectUsers
 
-                        echo var_dump($user_details);
+                        //echo var_dump($user_details);
 
-                        exit;
+                        //exit;
 
                         //$data[]['alias'] = $user_details['data'][0]['alias']; // add alias to $data
 
