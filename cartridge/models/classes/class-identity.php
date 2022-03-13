@@ -1316,9 +1316,14 @@
 
                         // User information...
                         $request['id'] = $row['user_id']; // get user ID for selectUsers
-                        echo "user: " . $request['id'];
+                        //echo "user: " . $request['id'];
                         $request['domain'] = 'users'; // switch domain
                         $user_details = $this->user->selectUsers($request); // collect all user details returned from selectUsers
+
+                        echo var_dump($user_details);
+
+                        exit;
+
                         //$data[]['alias'] = $user_details['data'][0]['alias']; // add alias to $data
 
                         $request['id'] = $user_details['data'][0]['person']; // get user ID for selectUsers
