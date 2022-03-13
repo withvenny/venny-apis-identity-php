@@ -905,8 +905,8 @@
                             'status' => $row['user_status'],
                             'validation' => $row['user_validation'],
                             'welcome' => json_decode($row['user_welcome']),
-                            'app' => $row['app_id'],
                             'person' => $row['person_id'],
+                            'app' => $row['app_id'],
                             'when' => $row['time_finished'],
 
                         ];
