@@ -760,6 +760,7 @@
                     user_status,
                     user_validation,
                     user_welcome,
+                    person_id,
                     app_id,
                     time_finished
 
