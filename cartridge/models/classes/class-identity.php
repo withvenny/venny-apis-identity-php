@@ -1310,9 +1310,9 @@
                     //
                     while($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
 
-                        echo var_dump($data);
+                        //echo var_dump($data);
 
-                        exit;
+                        //exit;
 
                         // User information...
                         $request['id'] = $row['user_id']; // get user ID for selectUsers
