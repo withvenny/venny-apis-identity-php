@@ -653,8 +653,8 @@
 
             //2022-03-26 03:08:18.35789
             //date("Y-m-d H:i:s")
-            if(isset($request['login_last'])){$request['login_last']=date("Y-m-d H:i:s");}
-            if(isset($request['status'])){$request['status']='1';}
+            if(!isset($request['login_last'])){$request['login_last']=date("Y-m-d H:i:s");}
+            if(!isset($request['status'])){$request['status']=1;}
 
             // rearrnging
             if(isset($request['authorize'])){$columns.="user_authorize,";}
